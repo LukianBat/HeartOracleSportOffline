@@ -1,7 +1,9 @@
 package com.heartoracle.sport.offline.feature.heartrate.presentation
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Vibrator
 import android.view.View
 import android.view.WindowManager
 import com.heartoracle.sport.offline.BR
@@ -36,9 +38,16 @@ class HeartRateActivity :
         measureView.visibility = View.GONE
         imageOsm.setImageResource(R.drawable.ic_stand)
         imageOsm.visibility = View.VISIBLE
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(500)
     }
 
-    override fun toMeasure() {
+    override fun toMeasure(sit: Boolean) {
+        if (sit) {
+            miniIcon.setImageResource(R.drawable.ic_sit)
+        } else {
+            miniIcon.setImageResource(R.drawable.ic_stand)
+        }
         imageOsm.visibility = View.GONE
         measureView.visibility = View.VISIBLE
     }

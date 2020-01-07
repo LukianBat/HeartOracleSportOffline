@@ -12,7 +12,6 @@ import com.heartoracle.sport.offline.feature.heartrate.domain.usecase.get.GetSit
 import com.heartoracle.sport.offline.feature.heartrate.domain.usecase.get.GetStandHeartRateUseCase
 import com.heartoracle.sport.offline.feature.settings.domain.usecase.get.GetNumberUseCase
 import io.reactivex.Completable
-import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.rxkotlin.addTo
 import java.util.concurrent.TimeUnit
@@ -52,7 +51,7 @@ class HeartRateViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     fun startSitMeasure() {
-        eventsDispatcher.dispatchEvent { toMeasure() }
+        eventsDispatcher.dispatchEvent { toMeasure(true) }
         isStandHeartRateChecked = true
         getSitHeartRateUseCase.getSitHeartRate().subscribe { value ->
             sitHeartRate = value
@@ -67,7 +66,7 @@ class HeartRateViewModel @Inject constructor(
 
     @SuppressLint("CheckResult")
     fun startStandMeasure() {
-        eventsDispatcher.dispatchEvent { toMeasure() }
+        eventsDispatcher.dispatchEvent { toMeasure(false) }
         getStandHeartRateUseCase.getStandHeartRate().subscribe { value ->
             standHeartRate = value
             calculateResult()
@@ -95,7 +94,7 @@ class HeartRateViewModel @Inject constructor(
 
     interface EventsListener {
         fun toResult(res: OsmRes)
-        fun toMeasure()
+        fun toMeasure(sit: Boolean)
         fun toStandHeartRate()
     }
 

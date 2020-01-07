@@ -1,15 +1,19 @@
 package com.heartoracle.sport.offline.feature.menu
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.heartoracle.sport.offline.R
 import com.heartoracle.sport.offline.feature.heartrate.presentation.HeartRateActivity
 import com.heartoracle.sport.offline.feature.menu.permission_dialog.PermissionDialog
+import com.heartoracle.sport.offline.feature.settings.data.datasource.NumberDataSourceImpl.Companion.NUMBER_DEFAULT
+import com.heartoracle.sport.offline.feature.settings.data.datasource.NumberDataSourceImpl.Companion.NUMBER_KEY
 import com.heartoracle.sport.offline.feature.settings.presentation.SettingsActivity
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -27,15 +31,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         requestPermissions()
-        heartRateButton.setOnClickListener {
-            startActivity(Intent(this, HeartRateActivity::class.java))
-        }
         settingButton.setOnClickListener {
             startActivity(Intent(this, SettingsActivity::class.java))
         }
         systemSettingsButton.setOnClickListener {
             val intent = Intent(Settings.ACTION_SETTINGS)
             startActivity(intent)
+        }
+        heartRateButton.setOnClickListener {
+            val preferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+            val number = preferences.getInt(NUMBER_KEY, NUMBER_DEFAULT)
+            if (number == NUMBER_DEFAULT) {
+                Toast.makeText(this, "Установите номер", Toast.LENGTH_SHORT).show()
+            } else {
+                startActivity(Intent(this, HeartRateActivity::class.java))
+            }
         }
     }
 
