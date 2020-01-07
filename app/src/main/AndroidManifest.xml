@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.heartoracle.sport.offline">
+
+    <uses-permission android:name="android.permission.BODY_SENSORS" />
+    <uses-permission
+        android:name="android.permission.WRITE_APN_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+
+
+    <dist:module dist:instant="true" />
+
+    <application
+        android:name=".core.App"
+        android:icon="@drawable/logo"
+        android:keepScreenOn="true"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:theme="@style/AppTheme"
+        tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".feature.menu.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".feature.result.ResultActivity" />
+        <activity android:name=".feature.heartrate.presentation.HeartRateActivity" />
+        <activity android:name=".feature.settings.presentation.SettingsActivity" />
+    </application>
+
+</manifest>
